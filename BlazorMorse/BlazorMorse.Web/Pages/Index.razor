@@ -1,0 +1,83 @@
+﻿@page "/"
+@using BlazorMorse.Domain
+@inject IJSRuntime JSRuntime
+
+
+<div style="text-align: center">
+    <label>
+        <input @bind="InputText" @onkeyup="MaybeSend"/>
+    </label>
+    <button @onclick="Send">Send Morse Code</button>
+</div>
+
+<div style="text-align: center; font-size: 300%; max-width: 80%">
+    @foreach (var morsePart in Output)
+    {
+        if (morsePart is Pause)
+        {
+            @((MarkupString) "&nbsp;")
+        }
+        else if (morsePart is Dot)
+        {
+            <span class="dot"></span>
+        }
+        else if (morsePart is Dash)
+        {
+            <span class="dash"></span>
+        }
+    }
+</div>
+
+@code {
+    private string InputText { get; set; }
+    private List<IMorsePart> Output { get; set; } = new();
+    private const int ShortDelay = 500;
+    private const int LongDelay = 950;
+
+    private async Task MaybeSend(KeyboardEventArgs args)
+    {
+        if(args.Key == "Enter")
+        {
+            await Send();
+        }
+    }
+
+    private async Task Send()
+    {
+        Output.Clear();
+
+        foreach (var character in InputText)
+        {
+            if (character == ' ')
+            {
+                Output.Add(new Pause());
+                Output.Add(new Pause());
+                Output.Add(new Pause());
+
+                this.StateHasChanged();
+                await Task.Delay(LongDelay);
+                continue;
+            }
+
+            var res = character.ToMorseCode();
+
+            foreach (var morsePart in res)
+            {
+                Output.Add(morsePart);
+                this.StateHasChanged();
+                if (morsePart is Dot)
+                {
+                    await JSRuntime.InvokeVoidAsync("playSound", "dot");
+                    await Task.Delay(ShortDelay);
+                }
+                else if (morsePart is Dash)
+                {
+                    await JSRuntime.InvokeVoidAsync("playSound", "dash");
+                    await Task.Delay(LongDelay);
+                }
+            }
+
+            Output.Add(new Pause());
+        }
+    }
+}

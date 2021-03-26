@@ -1,0 +1,17 @@
+﻿.dot {
+    height: 16px;
+    width: 16px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+    margin-inline: 1px;
+}
+
+.dash {
+    height: 16px;
+    width: 32px;
+    background-color: #bbb;
+    border-radius: 8px;
+    display: inline-block;
+    margin-inline: 1px;
+}
