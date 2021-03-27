@@ -2,15 +2,16 @@
 @using BlazorMorse.Domain
 @inject IJSRuntime JSRuntime
 
+@if (!Hidden)
+{
+    <div class="centered">
+        <label>
+            <input @bind="InputText" @onkeyup="MaybeSend"/>@*<button @onclick="Send">Send Morse Code</button>*@
+        </label>
+    </div>
+}
 
-<div style="text-align: center">
-    <label>
-        <input @bind="InputText" @onkeyup="MaybeSend"/>
-    </label>
-    <button @onclick="Send">Send Morse Code</button>
-</div>
-
-<div style="text-align: center; font-size: 300%; max-width: 80%">
+<div class="centered" style="font-size: 300%; max-width: 80%">
     @foreach (var morsePart in Output)
     {
         if (morsePart is Pause)
@@ -31,8 +32,9 @@
 @code {
     private string InputText { get; set; }
     private List<IMorsePart> Output { get; set; } = new();
-    private const int ShortDelay = 500;
-    private const int LongDelay = 950;
+    private const int ShortDelay = 600;
+    private const int LongDelay = 1000;
+    private bool Hidden = false;
 
     private async Task MaybeSend(KeyboardEventArgs args)
     {
@@ -44,6 +46,7 @@
 
     private async Task Send()
     {
+        Hidden = true;
         Output.Clear();
 
         foreach (var character in InputText)
@@ -79,5 +82,9 @@
 
             Output.Add(new Pause());
         }
+
+        await Task.Delay(3000);
+        Hidden = false;
+        this.StateHasChanged();
     }
 }
