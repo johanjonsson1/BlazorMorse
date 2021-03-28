@@ -8,4 +8,4 @@ International Morse code is composed of five elements:
 + short gap (between letters): three time units long
 + medium gap (between words): seven time units long
 
-<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Morsetaste.jpg/1920px-Morsetaste.jpg" width="600">
+<img src="https://github.com/johanjonsson1/BlazorMorse/blob/main/BlazorMorse/screenshot.png" width="600">
