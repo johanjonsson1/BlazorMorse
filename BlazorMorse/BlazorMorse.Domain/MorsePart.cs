@@ -22,13 +22,23 @@
         }
     }
 
-    public class Pause : IMorsePart
+    public class ShortGap : IMorsePart
     {
         public const char Sign = ' ';
 
         public override string ToString()
         {
             return Sign.ToString();
+        }
+    }
+
+    public class MediumGap : IMorsePart
+    {
+        public const string Sign = "   ";
+
+        public override string ToString()
+        {
+            return Sign;
         }
     }
 }

@@ -2,31 +2,39 @@
 @using BlazorMorse.Domain
 @inject IJSRuntime JSRuntime
 
-@if (!Hidden)
-{
-    <div class="centered">
-        <label>
-            <input @bind="InputText" @onkeyup="MaybeSend"/>@*<button @onclick="Send">Send Morse Code</button>*@
-        </label>
-    </div>
-}
+<span class="fas @(SoundOn ? "fa-volume-mute" : "fa-volume-up") speaker" @onclick="ToggleSound"></span>
 
-<div class="centered" style="font-size: 300%; max-width: 80%">
-    @foreach (var morsePart in Output)
+<div>
+    @if (!Hidden)
     {
-        if (morsePart is Pause)
-        {
-            @((MarkupString) "&nbsp;")
-        }
-        else if (morsePart is Dot)
-        {
-            <span class="dot"></span>
-        }
-        else if (morsePart is Dash)
-        {
-            <span class="dash"></span>
-        }
+        <div class="centered">
+            <label>
+                <input @bind="InputText" @onkeyup="MaybeSend"/><span class="fas fa-arrow-alt-circle-right send-button" @onclick="Send"></span>
+            </label>
+        </div>
     }
+
+    <div class="morse-content @(Moved ? "output" : "")">
+        @foreach (var morsePart in Output)
+        {
+            if (morsePart is MediumGap)
+            {
+                <span class="medium-gap"></span>
+            }
+            if (morsePart is ShortGap)
+            {
+                <span class="short-gap"></span>
+            }
+            else if (morsePart is Dot)
+            {
+                <span class="dot"></span>
+            }
+            else if (morsePart is Dash)
+            {
+                <span class="dash"></span>
+            }
+        }
+    </div>
 </div>
 
 @code {
@@ -35,6 +43,13 @@
     private const int ShortDelay = 600;
     private const int LongDelay = 1000;
     private bool Hidden = false;
+    private bool Moved = false;
+    private bool SoundOn = true;
+
+    private void ToggleSound()
+    {
+        SoundOn = !SoundOn;
+    }
 
     private async Task MaybeSend(KeyboardEventArgs args)
     {
@@ -47,22 +62,31 @@
     private async Task Send()
     {
         Hidden = true;
+        Moved = false;
+
         Output.Clear();
 
         foreach (var character in InputText)
         {
-            if (character == ' ')
-            {
-                Output.Add(new Pause());
-                Output.Add(new Pause());
-                Output.Add(new Pause());
+            
+            List<IMorsePart> res;
 
+            try
+            {
+                res = character.ToMorseCode();
+            }
+            catch (MorseException)
+            {
+                continue;
+            }
+
+            if (res[0] is MediumGap)
+            {
+                Output.AddRange(res);
                 this.StateHasChanged();
                 await Task.Delay(LongDelay);
                 continue;
             }
-
-            var res = character.ToMorseCode();
 
             foreach (var morsePart in res)
             {
@@ -70,21 +94,30 @@
                 this.StateHasChanged();
                 if (morsePart is Dot)
                 {
-                    await JSRuntime.InvokeVoidAsync("playSound", "dot");
+                    if (SoundOn)
+                    {
+                        await JSRuntime.InvokeVoidAsync("playSound", "dot");
+                    }
+
                     await Task.Delay(ShortDelay);
                 }
                 else if (morsePart is Dash)
                 {
-                    await JSRuntime.InvokeVoidAsync("playSound", "dash");
+                    if (SoundOn)
+                    {
+                        await JSRuntime.InvokeVoidAsync("playSound", "dash");
+                    }
+
                     await Task.Delay(LongDelay);
                 }
             }
 
-            Output.Add(new Pause());
+            Output.Add(new ShortGap());
         }
 
         await Task.Delay(3000);
         Hidden = false;
+        Moved = true;
         this.StateHasChanged();
     }
 }

@@ -8,7 +8,7 @@ namespace BlazorMorse.Domain
     {
         private static readonly Dictionary<char, string> Map = new()
         {
-            {' ', " "},
+            {' ', MediumGap.Sign},
             {'A', ".-"},
             {'B', "-..."},
             {'C', "-.-."},
@@ -45,12 +45,23 @@ namespace BlazorMorse.Domain
             {'8', "---.."},
             {'9', "----."},
             {'0', "-----"},
+            { 'Å', ".--.-"},
+            { 'Ä', ".-.-" },
+            { 'Ö', "---." },
+            { '.', ".-.-.-" },
+            { ',', "--..--" },
+            { '!', "-.-.--" },
+            { '?', "..--.." },
         };
 
         public static List<IMorsePart> ToMorseCode(this char c)
         {
-            var code = Map[char.ToUpperInvariant(c)];
-            return code.Select(GetMorsePart).ToList();
+            if (!Map.TryGetValue(char.ToUpperInvariant(c), out var code))
+            {
+                throw new MorseException($"No morse code found for character ({c})");
+            }
+
+            return code is MediumGap.Sign ? new List<IMorsePart> { new MediumGap() } : code.Select(GetMorsePart).ToList();
         }
 
         private static IMorsePart GetMorsePart(char cc) =>
@@ -58,7 +69,7 @@ namespace BlazorMorse.Domain
             {
                 Dot.Sign => new Dot(),
                 Dash.Sign => new Dash(),
-                Pause.Sign => new Pause(),
+                ShortGap.Sign => new ShortGap(),
                 _ => throw new ArgumentException($"unsupported character {cc}")
             };
     }
