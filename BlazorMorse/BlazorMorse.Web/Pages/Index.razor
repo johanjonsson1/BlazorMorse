@@ -2,122 +2,27 @@
 @using BlazorMorse.Domain
 @inject IJSRuntime JSRuntime
 
-<span class="fas @(SoundOn ? "fa-volume-mute" : "fa-volume-up") speaker" @onclick="ToggleSound"></span>
+<span class="fas fa-braille brai braille-icon" @onclick="() => SetOutput(Output.Braille)"></span>
+<span class="fas fa-ellipsis-h morse-icon" @onclick="() => SetOutput(Output.Morse)"></span>
 
-<div>
-    @if (!Hidden)
-    {
-        <div class="centered">
-            <label>
-                <input @bind="InputText" @onkeyup="MaybeSend"/><span class="fas fa-arrow-alt-circle-right send-button" @onclick="Send"></span>
-            </label>
-        </div>
-    }
-
-    <div class="morse-content @(Moved ? "output" : "")">
-        @foreach (var morsePart in Output)
-        {
-            if (morsePart is MediumGap)
-            {
-                <span class="medium-gap"></span>
-            }
-            if (morsePart is ShortGap)
-            {
-                <span class="short-gap"></span>
-            }
-            else if (morsePart is Dot)
-            {
-                <span class="dot"></span>
-            }
-            else if (morsePart is Dash)
-            {
-                <span class="dash"></span>
-            }
-        }
+@if (Output is Output.Morse)
+{
+    <Morse/>
+}
+else if (Output is Output.Braille)
+{
+    <div class="centered">
+        <label>
+            <input/><span class="fas fa-arrow-alt-circle-right send-button"></span>
+        </label>
     </div>
-</div>
+}
 
 @code {
-    private string InputText { get; set; }
-    private List<IMorsePart> Output { get; set; } = new();
-    private const int ShortDelay = 600;
-    private const int LongDelay = 1000;
-    private bool Hidden = false;
-    private bool Moved = false;
-    private bool SoundOn = true;
+    private Output Output = Output.Morse;
 
-    private void ToggleSound()
+    private void SetOutput(Output output)
     {
-        SoundOn = !SoundOn;
-    }
-
-    private async Task MaybeSend(KeyboardEventArgs args)
-    {
-        if(args.Key == "Enter")
-        {
-            await Send();
-        }
-    }
-
-    private async Task Send()
-    {
-        Hidden = true;
-        Moved = false;
-
-        Output.Clear();
-
-        foreach (var character in InputText)
-        {
-            
-            List<IMorsePart> res;
-
-            try
-            {
-                res = character.ToMorseCode();
-            }
-            catch (MorseException)
-            {
-                continue;
-            }
-
-            if (res[0] is MediumGap)
-            {
-                Output.AddRange(res);
-                this.StateHasChanged();
-                await Task.Delay(LongDelay);
-                continue;
-            }
-
-            foreach (var morsePart in res)
-            {
-                Output.Add(morsePart);
-                this.StateHasChanged();
-                if (morsePart is Dot)
-                {
-                    if (SoundOn)
-                    {
-                        await JSRuntime.InvokeVoidAsync("playSound", "dot");
-                    }
-
-                    await Task.Delay(ShortDelay);
-                }
-                else if (morsePart is Dash)
-                {
-                    if (SoundOn)
-                    {
-                        await JSRuntime.InvokeVoidAsync("playSound", "dash");
-                    }
-
-                    await Task.Delay(LongDelay);
-                }
-            }
-
-            Output.Add(new ShortGap());
-        }
-
-        await Task.Delay(3000);
-        Hidden = false;
-        Moved = true;
-        this.StateHasChanged();
+        Output = output;
     }
 }

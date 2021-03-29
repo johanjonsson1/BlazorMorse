@@ -1,0 +1,52 @@
+﻿.dot {
+    height: 16px;
+    width: 16px;
+    background-color: #000;
+    border-radius: 50%;
+    display: inline-block;
+    margin-inline: 1px;
+    opacity: 0.4;
+    animation-name: fade-in;
+    animation-duration: 0.5s;
+    animation-iteration-count: 1;
+}
+
+.dash {
+    height: 16px;
+    width: 48px;
+    background-color: #000;
+    display: inline-block;
+    margin-inline: 1px;
+    opacity: 0.4;
+    animation-name: fade-in;
+    animation-duration: 0.5s;
+    animation-iteration-count: 1;
+}
+
+.medium-gap {
+    height: 16px;
+    width: 112px;
+    display: inline-block;
+}
+
+.short-gap {
+    height: 16px;
+    width: 16px;
+    display: inline-block;
+}
+
+.morse-content {
+    font-size: 300%;
+    max-width: 80%;
+    position: fixed;
+    top: 50%;
+    left: 10%;
+}
+
+.speaker {
+    position: absolute;
+    top: 8px;
+    right: 16px;
+    font-size: 400%;
+    opacity: 0.4;
+}

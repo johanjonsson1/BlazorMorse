@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30907.101
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorMorse.Web", "BlazorMorse.Web\BlazorMorse.Web.csproj", "{EA661A5D-3B12-4DF7-9017-2A58A7A52DE8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorMorse.Web", "BlazorMorse.Web\BlazorMorse.Web.csproj", "{EA661A5D-3B12-4DF7-9017-2A58A7A52DE8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorMorse.Domain", "BlazorMorse.Domain\BlazorMorse.Domain.csproj", "{0879F0B8-9B99-49B2-AEDB-A2C8D861F560}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorMorse.Domain", "BlazorMorse.Domain\BlazorMorse.Domain.csproj", "{0879F0B8-9B99-49B2-AEDB-A2C8D861F560}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
