@@ -47,11 +47,14 @@ input {
     padding-left: 25px;
     padding-right: 55px;
     text-align: center;
-    text-transform: uppercase;
     animation-name: fade-in-input;
     animation-duration: 1.5s;
     animation-iteration-count: 1;
     animation-fill-mode: forwards;
+}
+
+.input-upper {
+    text-transform: uppercase;
 }
 
 .send-button {

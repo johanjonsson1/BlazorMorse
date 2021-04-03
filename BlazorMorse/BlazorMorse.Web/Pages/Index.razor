@@ -2,8 +2,10 @@
 @using BlazorMorse.Domain
 @inject IJSRuntime JSRuntime
 
-<span class="fas fa-braille brai braille-icon" @onclick="() => SetOutput(Output.Braille)"></span>
-<span class="fas fa-ellipsis-h morse-icon" @onclick="() => SetOutput(Output.Morse)"></span>
+
+<span class="fas fa-braille brai braille-icon icon-wrapper" @onclick="() => SetOutput(Output.Braille)"></span>
+<span class="fas fa-ellipsis-h morse-icon icon-wrapper" @onclick="() => SetOutput(Output.Morse)"></span>
+
 
 @if (Output is Output.Morse)
 {
@@ -11,11 +13,7 @@
 }
 else if (Output is Output.Braille)
 {
-    <div class="centered">
-        <label>
-            <input/><span class="fas fa-arrow-alt-circle-right send-button"></span>
-        </label>
-    </div>
+    <Braille/>
 }
 
 @code {

@@ -1,0 +1,25 @@
+﻿@using System.Collections
+@using BlazorMorse.Domain
+
+<div class="table">
+    <div class="table-body">
+        <div class="row">
+            <div class="cell @(Symbol.Dots[0] ? "" : Hide)">&#8226;</div>
+            <div class="cell @(Symbol.Dots[3] ? "" : Hide)">&#8226;</div>
+        </div>
+        <div class="row">
+            <div class="cell @(Symbol.Dots[1] ? "" : Hide)">&#8226;</div>
+            <div class="cell @(Symbol.Dots[4] ? "" : Hide)">&#8226;</div>
+        </div>
+        <div class="row">
+            <div class="cell @(Symbol.Dots[2] ? "" : Hide)">&#8226;</div>
+            <div class="cell @(Symbol.Dots[5] ? "" : Hide)">&#8226;</div>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public IBrailleCharacter Symbol { get; set; }
+    private const string Hide = "cell-hidden";
+}

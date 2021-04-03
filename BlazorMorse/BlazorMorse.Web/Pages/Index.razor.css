@@ -12,3 +12,16 @@
 .braille-icon {
     top: 66px;
 }
+
+.icon-wrapper {
+    border-color: black;
+    border-width: 1px;
+    border-style: solid;
+    padding: 3px;
+    width: 4%;
+    text-align: center;
+}
+
+.icon-wrapper:hover {
+    border-width: 2px;
+}

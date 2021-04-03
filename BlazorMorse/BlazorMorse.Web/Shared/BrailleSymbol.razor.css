@@ -1,0 +1,22 @@
+﻿.table {
+    display: inline;
+    width: 100%;
+}
+
+.table-body {
+    display: inline-block;
+    padding-inline: 2px;
+}
+
+.row {
+    margin-top: -7px;
+}
+
+.cell {
+    display: table-cell;
+    padding-inline: 3px;
+}
+
+.cell-hidden {
+    opacity: 0.1;
+}
