@@ -39,8 +39,8 @@
 @code {
     private string InputText { get; set; }
     private List<IMorsePart> Output { get; set; } = new();
-    private const int ShortDelay = 100;//600;
-    private const int LongDelay = 200;//1000;
+    private const int ShortDelay = 600;
+    private const int LongDelay = 1000;
     private bool Hidden = false;
     private bool Moved = false;
     private bool SoundOn = true;
@@ -67,12 +67,10 @@
     {
         Hidden = true;
         Moved = false;
-
         Output.Clear();
 
         foreach (var character in InputText)
-        {
-            
+        {            
             List<IMorsePart> res;
 
             try

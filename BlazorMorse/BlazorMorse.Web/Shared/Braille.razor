@@ -16,7 +16,8 @@
         {
             if (character is WhitespaceIndicator)
             {
-                @Space
+                @*@Space*@
+                <span style="width: 30px; display: inline-block"></span>
                 continue;
             }
             <BrailleSymbol Symbol="character"/>
@@ -27,7 +28,7 @@
 @code {
     private string InputText { get; set; }
     private List<IBrailleCharacter> Output { get; set; } = new();
-    private MarkupString Space = new MarkupString("<span style=\"width: 20px; display: inline-block\"></span>");
+    private MarkupString Space = new MarkupString("<span style=\"width: 6%; display: inline-block\"></span>");
     private const int ShortDelay = 100;
     private bool Hidden = false;
     private bool Moved = false;
@@ -50,8 +51,6 @@
         Hidden = true;
         Moved = false;
         Output.Clear();
-
-
         var result = InputText.ToBraille();
 
         foreach (var symbol in result)

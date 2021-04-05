@@ -15,6 +15,7 @@
 .cell {
     display: table-cell;
     padding-inline: 3px;
+    font-size: 120%;
 }
 
 .cell-hidden {

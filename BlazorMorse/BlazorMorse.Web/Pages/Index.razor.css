@@ -1,7 +1,7 @@
 ﻿.morse-icon, .braille-icon {
     position: absolute;
     left: 16px;
-    font-size: 300%;
+    font-size: 200%;
     opacity: 0.5;
 }
 
@@ -13,15 +13,17 @@
     top: 66px;
 }
 
-.icon-wrapper {
-    border-color: black;
-    border-width: 1px;
-    border-style: solid;
-    padding: 3px;
-    width: 4%;
+.icon-button {
+    padding: 10px;
     text-align: center;
+    cursor: pointer;
 }
 
-.icon-wrapper:hover {
-    border-width: 2px;
+.icon-button:hover {
+    background-color: lightgray;
+}
+
+.selected {
+    background-color: lightgray;
+    opacity: 0.6;
 }
