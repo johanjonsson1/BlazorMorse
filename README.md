@@ -9,3 +9,4 @@ International Morse code is composed of five elements:
 + medium gap (between words): seven time units long
 
 <img src="https://github.com/johanjonsson1/BlazorMorse/blob/main/BlazorMorse/screenshot.png" width="600">
+<img src="https://github.com/johanjonsson1/BlazorMorse/blob/main/BlazorMorse/screenshot2.png" width="600">
